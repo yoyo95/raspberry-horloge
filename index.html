@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Sunflower:300" rel="stylesheet">
+		<style>
+			html, body {
+  background-color: black;
+  font-family: 'Sunflower', sans-serif;
+}
+.clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  padding: 4em 0;
+  text-align: center;
+  
+  &__time {
+    font-size: 15vmin;
+    white-space: nowrap;
+    line-height: 1;
+    color: #fff;
+  }
+}
+#js-clock{
+	color: navy;
+	font-size: 120px;
+	letter-spacing: 2px;
+}
+		</style>
+	</head>
+	<body>
+		<section class="clock">
+  			<time class="clock__time">
+    			<span id="js-clock"></span>
+  			</time>
+		</section>
+
+		<script>
+			
+/**
+ * Simple JS Clock
+ */
+(function() {
+
+  var Clock = function () {
+    
+    var el = document.querySelector('#js-clock');
+    
+    /**
+     * Time Format
+     */
+    var timeFormat = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute:'2-digit',
+      second:'2-digit'
+    });
+     
+    /** 
+     * Render Util
+     */
+    render = function(template, node) {
+      
+      if (!node) return;
+      node.innerHTML = (typeof template === 'function' ? template() : template);
+      
+      var event = new CustomEvent('elementRenderer', {
+        bubbles: true
+      });
+      
+      node.dispatchEvent(event);
+      return node;
+    };
+    
+    /**
+     * Pass vars to out Render Util
+     */
+    render(timeFormat, el);
+  }
+  
+  /**
+   * Start the Clock Interval
+   */
+  window.setInterval(Clock, 1000);
+
+}());
+		</script>
+	</body>
+</html>
